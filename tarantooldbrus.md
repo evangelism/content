@@ -6,7 +6,7 @@
 
 Tarantool – это высокопроизводительный сервер приложений на базе Lua, интегрированный с NoSQL СУБД. База данных разрабатывается в виде открытого проекта под лицензией BSD компанией Mail.ru и сообществом разработчиков.
 
-Крупнейшим кейсом использования Tarantool служит сама компания Mail.ru, которая с помощью этой БД обеспечивает работу 30 миллионов пользователей и 25 миллионов email в сутки. Другими пользователями Tarantool являются Badoo, Avito, Qiwi, Wallarm и так далее.
+Крупнейшим кейсом использования Tarantool служит сама компания Mail.ru, которая с помощью этой БД обеспечивает работу 30 миллионов пользователей и 500 миллионов email в сутки. Другими пользователями Tarantool являются Badoo, Avito, Qiwi, Wallarm и так далее.
 
 Подробнее о Tarantool вы можете узнать на официальном сайте [http://tarantool.org/](http://tarantool.org/ "http://tarantool.org/") и странице на Facebook [https://www.facebook.com/TarantoolDatabase/](https://www.facebook.com/TarantoolDatabase/ "https://www.facebook.com/TarantoolDatabase/").
 
