@@ -1,2 +1,2 @@
 # content
-This repository contains contains articles on various themes.
+This repository contains articles on various themes.
