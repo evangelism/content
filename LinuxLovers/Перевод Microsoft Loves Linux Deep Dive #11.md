@@ -43,7 +43,7 @@ DSC является мощной и гибкой платформой для у
 
 Простой пример конфигурации, проверяющей что установлены все модули для MariaBD и запущен соответствующий демон на CentOS или RHEL 7 может выглядеть так:
 
-![enter image description here](https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/89/15/Linux121015.JPG)
+![enter image description here](https://habrastorage.org/files/5f0/1ec/d7a/5f01ecd7a7a14c94aebf242751f6733e.JPG)
 
 Следующими шагами после создания MOF будут его размещение и развертывание. Развертывание может быть сделано двумя путями: публикация конфигурации на Linux сервере (в PowerShell это делается с помощью команды [Start-DSCConfiguration](https://technet.microsoft.com/en-us/library/dn521623.aspx)) или размещения на pull сервере с последующей загрузкой DSC агентом в целевой Linux сервер.
 
@@ -54,8 +54,6 @@ DSC является мощной и гибкой платформой для у
 Программа DSC для Linux реализует модель поставщика и включает в себя два основных компонента: The Local Configuration Manager (LCM) и ресурсы. The LCM - это ключевой DSC агент, который должен быть установлен на каждом Linux сервере, предназначенном для управления с помощью DSC. Он обрабатывает конфигурационные документы и применяет сущности и операции к ресурсам. Ресурсы - это провайдеры, осуществляющие управление специфическими зонами, такими как файлы, демоны, пакеты и т.д. Ресурсы исполняют действия, указанные в конфигурации для того чтобы протестировать, получить и установить эту конфигурацию. Кроме того они образуют слой абстракции. Это очень ценно для Linux, различные дистрибутивы которого могут иметь разные пути установки одной и той же конфигурации. Абстракция позволяет скрывать тонкости реализации разных дистрибутивов. Теперь вы можете не ломать голову над синтаксисом конфигурационных файлов таких компонентов как сетевые адаптеры, фаерволы и демоны, который может различаться в разных версиях или дистрибутивах системы. Пакет DSC для Linux уже включает в себя набор встроенных ресурсов и позволяет установить дополнительные ресурсные модули, которые поставляются в виде .zip фалов и содержат схемы ресурсов и исполняемые файлы. При необходимости эти ресурсные модули могут быть скачаны с pull сервера или установлены локально с помощью InstallModule.py. 
 
 ##Схема архитектуры DSC для Linux##
-
- 
 
 The DSC for Linux Local Configuration Manager is a Common Information Model (CIM) provider, registered with an Open Management Infrastructure (OMI) server. OMI is an open source, lightweight CIM server and has been discussed in previous blog posts in this series pertaining to System Center Operations Manager and Configuration Manager agents for UNIX and Linux. The resources are also registered as providers with OMI, but they are invoked by the LCM provider, and not the OMI server directly.  Only native (i.e. written in C or C++) resources are currently supported by OMI and DSC for Linux. However, the built-in and downloadable resources presently available for DSC for Linux are authored in Python. This is facilitated through the use of a thin C++ layer for each resource that uses sockets to communicate with a client Python layer.
 
