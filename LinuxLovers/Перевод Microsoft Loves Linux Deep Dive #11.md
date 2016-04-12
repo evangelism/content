@@ -43,7 +43,7 @@ DSC является мощной и гибкой платформой для у
 
 Простой пример конфигурации, проверяющей что установлены все модули для MariaBD и запущен соответствующий демон на CentOS или RHEL 7 может выглядеть так:
 
-![enter image description here](https://habrastorage.org/files/5f0/1ec/d7a/5f01ecd7a7a14c94aebf242751f6733e.JPG)
+![enter image description here](https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/89/15/Linux121015.JPG)
 
 Следующими шагами после создания MOF будут его размещение и развертывание. Развертывание может быть сделано двумя путями: публикация конфигурации на Linux сервере (в PowerShell это делается с помощью команды [Start-DSCConfiguration](https://technet.microsoft.com/en-us/library/dn521623.aspx)) или размещения на pull сервере с последующей загрузкой DSC агентом в целевой Linux сервер.
 
@@ -55,43 +55,46 @@ DSC является мощной и гибкой платформой для у
 
 ##Схема архитектуры DSC для Linux##
 
-The DSC for Linux Local Configuration Manager is a Common Information Model (CIM) provider, registered with an Open Management Infrastructure (OMI) server. OMI is an open source, lightweight CIM server and has been discussed in previous blog posts in this series pertaining to System Center Operations Manager and Configuration Manager agents for UNIX and Linux. The resources are also registered as providers with OMI, but they are invoked by the LCM provider, and not the OMI server directly.  Only native (i.e. written in C or C++) resources are currently supported by OMI and DSC for Linux. However, the built-in and downloadable resources presently available for DSC for Linux are authored in Python. This is facilitated through the use of a thin C++ layer for each resource that uses sockets to communicate with a client Python layer.
+ ![enter image description here](https://habrastorage.org/files/9ad/8e9/962/9ad8e9962a37412c89f9805a1cb50dc9.jpg)
 
-Configurations can be pushed to DSC for Linux over the Web Services Management (WSMan) protocol (with a PowerShell CIM session or any other WSMan client). In this model, the WSMan connection is made to the OMI server. Alternatively, configurations can be pulled from a DSC pull server, either your own pull server or the Azure Automation DSC service. In the pull model, a cron job periodically triggers the LCM to check for changed configurations on the Pull server and check that the current configuration is correctly applied. For pull operations, the ubiquitous cURL https client is used to connect to the web service.
+DSC для Linux Local Configuration Manager является провайдером Common Information Model (CIM), зарегистрированным с помощью Open Management Infrastructure (OMI) сервером. OMI это не требовательный к ресурсами open-source CIM сервер, который был рассмотрен в предыдущих статьях этой серии: System Center [Operations Manager](https://blogs.technet.microsoft.com/b/server-cloud/archive/2015/11/10/microsoft-loves-linux-deep-dive-8-linux-and-unix-monitoring-with-operations-manager.aspx) и агенты [Configuration Manager](https://blogs.technet.microsoft.com/b/server-cloud/archive/2015/12/03/microsoft-loves-linux-deep-dive-10-managing-the-software-configuration-on-linux-and-unix-servers.aspx) для UNIX и Linux. Ресурсы также зарегистрированы с помощью OMI, но вызываются они LCM провайдером а не на прямую OMI сервером. На текущий момент OMI и DSC для Linux поддерживают только нативные (то есть написанные на C или C++) ресурсы. Однако, доступные сейчас ресурсы из комплекта поставки и скачиваемые ресурсы написаны на Python. Это позволяет создать тонкую C++ прослойку для каждого ресурса, которая использует сокеты для взаимодействия с клиентским Python слоем.
 
-Resources
+Конфигурации могут быть отправлены на DSC для Linux через протокол Web Services Management (WSMan) (через сессию PowerShell CIM или любой другой WSMan). В этой модели соединение WSMan выполнено с  OMI сервером. Кроме того, конфигурации могут быть загружены с DSC pull-сервера, как вашего собственного, так и сервиса [Azure Automation DSC](https://azure.microsoft.com/en-us/documentation/articles/automation-dsc-overview/).  При использовании pull модели LCM периодически проверяет изменения конфигурации на pull-сервере и правильность применения текущей конфигурации. В pull операциях применяется обычный cURL клиент для подключения к web сервису.
 
-The DSC for Linux software includes 10 built-In resources:
+##Ресурсы##
 
-•  nxArchive – synchronize a .tar/.zip with a directory
-•  nxFile – manage files & directories
-•  nxFileLine – manage lines within a file
-•  nxPackage – manage installed packages
-•  nxUser  – manage (local) user accounts
-•  nxGroup – manage user groups
-•  nxScript – extensible provider with user-defined Get/Set/Test scripts
-•  nxEnvironment – control defined environment variables
-•  nxSshAuthorizedKeys – manage ssh (public) keys for users
+Пакет DSC для Linux включает в себя 10 ресурсов:
 
-Two additional resource modules are currently available on the PowerShell Gallery: nxComputerManagement and nxNetworking. These modules provide four additional resources:
+- nxArchive – синхронизирует .tar/.zip архивы с директорией
+- nxFile – управляет файлами и директориями
+- nxFileLine – управляет строками в файле
+- nxPackage – управляет установленными пакетами
+- nxUser  – управляет локальными аккаунтами пользователей
+- nxGroup – управляет группами пользователей
+- nxScript – расширенный провайдер для user-defined Get/Set/Test скриптов
+- nxEnvironment – настраеивает переменные окружения
+- nxSshAuthorizedKeys – управляет публичными ssh ключами для пользователей
 
-•  nxComputer – manage hostname, timezone, DNS domain name
-•  nxIPAddress – manage IPv4/IPv6 configuration for an interface
-•  nxDNSServerAddress –manage DNS server addresses (DNS client)
-•  nxFirewall – manage firewall rules for 6 common Linux firewalls
+Два дополнительных ресурсных модуля уже доступны в PowerShell Gallery: nxComputerManagement и nxNetworking. Они добавляют четыре дополнительных ресурса:
 
-Azure Automation DSC
+- nxComputer – управляет именем хоста, временной зоной и доменным именем DNS
+- nxIPAddress – управляет конфигурацией IPv4/IPv6
+- nxDNSServerAddress –управляет адресами DNS сервером (DNS клиент)
+- nxFirewall – управляет правилами firewall для 6 распространенных типов firewall для Linux
 
-Azure Automation DSC is a cloud service built on the DSC pull server model that greatly simplifies centralized management of Windows and Linux configuration (with DSC configurations) and provides rich reporting on configuration compliance for managed servers. Registering a Linux server with Azure Automation DSC requires simply installing the DSC for Linux package (and OMI) and running a single command. Within the Azure portal, or with Azure PowerShell, you can upload DSC configurations, compile them to MOF documents, and assign the MOFs to registered servers. Once a configuration has been assigned, you can see the current and historical compliance status for the managed systems:
+##Azure Automation DSC##
 
+[Azure Automation DSC](https://azure.microsoft.com/en-us/documentation/articles/automation-dsc-overview/) это построенный по модели pull-сервера облачный сервис, который заметно упрощает централизованное управление конфигурациями Windows и Linux (с помощью DSC конфигураций) и позволяет получать расширенные отчеты о соответствии конфигурации на управляемых серверах. [Регистрация Linux сервера](https://azure.microsoft.com/en-us/documentation/articles/automation-dsc-onboarding/#physical-virtual-linux-machines-on-premises-in-azure-or-in-a-cloud-other-than-azure) для работы с Azure Automation DSC требует всего лишь установки пакета DSC для Linux (и OMI) и выполнения одной команды. С помощью портала Azure или с помощью Azure PowerShell вы можете загружать DSC конфигурации, компилировать их в MOF документы и назначать их зарегистрированным серверам. Вы можете посмотреть историю статистики соответствия для управляемых систем сразу после назначения конфигурации:
+
+![enter image description here](https://habrastorage.org/files/c62/26c/34d/c6226c34d9734b2caf5891b483f288f2.jpg)
  
 
-Azure DSC for Linux
+##Azure DSC для Linux##
 
-An Azure VM extension is also available for DSC for Linux. This VM extension will install DSC for Linux and apply the configuration (MOF) that you specify as well as any resource modules you supply. The extension is deployable through Azure CLI or Azure PowerShell, can be embedded in your ARM templates, and is a great way to automate initial configuration of your Linux VMs or provisioning of applications in Azure IaaS. For full documentation of the DSC for Linux extension, visit the extension’s GitHub repo. To recap: Azure Automation DSC provides a solution for ongoing configuration management of your Linux servers (no matter where they run) with drift remediation and reporting, while the Azure VM Extension enables easy deployment of the DSC for Linux software itself and one-time configuration setting for Azure IaaS virtual machines.
+*Расширение* Azure VM доступно и для DSC для Linux. [Это расширение](https://azure.microsoft.com/en-us/blog/introduce-azure-dscforlinux-extension/) установит DSC для Linux и применит указанную вами конфигурацию (MOF) вместе с заданными ресурсными модулями. Оно может быть развернуто через Azure CLI или Azure PowerShell и может быть встроено в ваши ARM шаблоны. Это отличный способ автоматизации начальной конфигурации ваших виртуальных машин Linux или развертывания приложений в Azure IaaS.  Полную документацию по расширению DSC для Linux можно найти в [репозитории на GitHub](https://github.com/Azure/azure-linux-extensions/tree/master/DSC). Подведем итог: Azure Automation DSC представляет собой решение для непрерывного управления конфигурациями ваших Linux серверов (в не зависимости от того, где они запущены) с функциями исправления возникающих различий конфигураций и создания расширенных отчетов. Расширение Azure VM позволяет вам легко разворачивать пакеты DSC для Linux делать разовые настройки конфигурации для виртуальных машин Azure IaaS.
 
-Summary
+##Заключение##
 
-PowerShell Desired State Configuration is a flexible declarative configuration tool that can be used in many scenarios to automate and manage server configurations. PowerShell DSC for Linux extends this capability to Linux and enables common configuration management for your heterogeneous data centers and clouds. To get started with DSC for Linux, check out the Release Notes, and documentation.
+PowerShell Desired State Configuration представляет собой гибкую декларативную платформу, которая может быть использована во множестве сценариев для автоматизации и управления серверными конфигурациями. PowerShell DSC для Linux переносит этот функционал на Linux и дает возможность одинакового управления конфигурациями для ваших разнородных дата-центров и облаков. Начать работать с DSC для Linuxможно с прочтения [Release Notes](https://www.microsoft.com/en-us/download/details.aspx?id=49150) и [документации](https://msdn.microsoft.com/en-us/powershell/dsc/lnxgettingstarted).
 
-Next week, this blog series will wrap up with a summary of Microsoft’s offerings for running and managing Linux and UNIX in your on-premises datacenter, putting all the pieces in context and looking at some future directions.
+На следующей неделе мы подведем итог того, что предлагает Microsoft для запуска и управления Linux и UNIX на вашем локальном дата-центре и рассмотрим некоторые планы на будущее.
