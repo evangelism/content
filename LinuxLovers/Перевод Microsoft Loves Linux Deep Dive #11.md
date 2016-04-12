@@ -43,7 +43,7 @@ DSC является мощной и гибкой платформой для у
 
 Простой пример конфигурации, проверяющей что установлены все модули для MariaBD и запущен соответствующий демон на CentOS или RHEL 7 может выглядеть так:
 
-![enter image description here](https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/89/15/Linux121015.JPG)
+![enter image description here](https://habrastorage.org/files/5f0/1ec/d7a/5f01ecd7a7a14c94aebf242751f6733e.JPG)
 
 Следующими шагами после создания MOF будут его размещение и развертывание. Развертывание может быть сделано двумя путями: публикация конфигурации на Linux сервере (в PowerShell это делается с помощью команды [Start-DSCConfiguration](https://technet.microsoft.com/en-us/library/dn521623.aspx)) или размещения на pull сервере с последующей загрузкой DSC агентом в целевой Linux сервер.
 
