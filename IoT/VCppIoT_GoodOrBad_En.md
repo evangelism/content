@@ -1,6 +1,6 @@
 
 
-Visual C++ for IoT Development: Прорыв или разочарование?
+Visual C++ for IoT Development: Breakthrough or disappointment?
 =========================================================
 
 ![enter image description here](https://habrastorage.org/files/a26/acc/d5b/a26accd5b8fe481387bf227d97854eaa.png)
@@ -19,26 +19,26 @@ This extension was published in March of 2016. But most of responses about is ar
 
 So what is the Visual C++ for IoT Development? It turned out that this is side product of using of [GDB Debugger](https://ru.wikipedia.org/wiki/GNU_Debugger) with Visual Studio.
 
-This story [beginned](https://blogs.msdn.microsoft.com/visualstudioalm/2014/11/12/debugging-c-code-on-android-with-visual-studio-2015/) in 2014. First there was possibility of remote debugging C++ code for Android in Visual Studio. Support of remote debugging for Linux was [announced](https://blogs.msdn.microsoft.com/vcblog/2015/04/29/debug-c-code-on-linux-from-visual-studio/) next half of year. В ноябре 2015 [появилась](https://blogs.msdn.microsoft.com/vcblog/2015/11/18/announcing-the-vs-gdb-debugger-extension/) Preview версия. Ну а сейчас дополнение для удаленной отладки кода на Linux из-под Visual Studio уже полностью [доступно](https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.VisualCforLinuxDevelopment) и активно развивается. Последнее обновление было 22.12.2016. Об этом уже даже [писали на хабре](https://habrahabr.ru/company/microsoft/blog/319962/).
+This story [began](https://blogs.msdn.microsoft.com/visualstudioalm/2014/11/12/debugging-c-code-on-android-with-visual-studio-2015/) in 2014. First there was possibility of remote debugging C++ code for Android in Visual Studio. Support of remote debugging for Linux was [announced](https://blogs.msdn.microsoft.com/vcblog/2015/04/29/debug-c-code-on-linux-from-visual-studio/) next half of year. Preview version [appeared](https://blogs.msdn.microsoft.com/vcblog/2015/11/18/announcing-the-vs-gdb-debugger-extension/) in November of 2015. And now Visual C++ for Linux Development [can be downloaded](https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.VisualCforLinuxDevelopment) as version 1.0.6. Last update was from 12.22.2016.
 
-Причем тут IoT? А оказалось, что уже давным-давно существует проект под названием [OpenOCD](http://openocd.org/). Полное его название Open On-Chip Debugger Free and Open On-Chip Debugging, In-System Programming and Boundary-Scan Testing. Смысл данного проекта заключается в том, что он является "единым" отладочным интерфейсом практически для любого микроконтроллера. Аппаратная ли система отладки или программная, внешний ли JTAG/SWD адаптер или он "размазан" на отладочной плате - ему все равно. На текущий момент OpenODC имеет конфигурационные файлы практически под все существующие отладочные средства. И унифицирует он все это как раз в GDB. 
+And where is IoT? It turns out that there is a project called [OpenOCD](http://openocd.org/). It full name is Open On-Chip Debugger Free and Open On-Chip Debugging, In-System Programming and Boundary-Scan Testing.  The main idea of this project is that implements one central debug interface endpoint for most of microcontrollers. Never mind if it software or hardware debug system, external JTAG/SWD device or integrated debug module. At this moment OpenOCD has config files for most popular debug systems. And as debug standard it uses same GDB.
 
-Выглядит это примерно так:
+It looks like this:
 
 ![enter image description here](https://habrastorage.org/files/747/87f/4ed/74787f4edcb649c0bc2706c4d26579d3.png)
 
-При этом открывается сокет по адресу localhost:3333. Соответственно это и есть GDB сервер, который позволяет выполнять удаленную отладку. К нему то и подключается Visual Studio.
+Debugger opens socket at localhost:3333. This endpoint is GDB server and Visual Studio using it as remote debugger server.
 
-В общем-то, это все. Больше Visual C++ for IoT Development ничего нового  делать толком и не умеет. Да, там можно настроить NMake и все-таки сделать компиляцию в консольном режиме. И еще есть настройки IntelliSense. Но это все и так было в проектах Makefile.
+And this is all. Visual C++ for IoT Development can't do anything new.
+Yes, you cant configure NMake and use compilation in console mode. Also you can configure IntelliSense. But Makefile projects already contains these features.
+
 
 ![enter image description here](https://habrastorage.org/files/aa5/1a4/4be/aa51a44be40742559203bb7a58d90473.png)
 
-На текущий момент разработчики протестировали все совместно с [ARM GCC tools](https://launchpad.net/gcc-arm-embedded). [OpenOCD](http://openocd.org/), [pyOCD](https://github.com/mbedmicro/pyOCD) и JTAG отладчиком [Segger](https://www.segger.com/).
+At this point the extension was tested with  [ARM GCC tools](https://launchpad.net/gcc-arm-embedded). [OpenOCD](http://openocd.org/), [pyOCD](https://github.com/mbedmicro/pyOCD) и [Segger](https://www.segger.com/) JTAG debugger.
 
-Чего бы хотелось от этого дополнения? Полноценной работы с ARM GCC так же как с обычными проектами, а не настраивать NMake. Тогда можно весь проект будет вести в Visual Studio, пользуясь всеми ее удобствами.
+What can we want from it ? Full support of ARM GCC like other standard project types without using NMake. Then it will be possible to use Visual Studio and it's cool features in all development and debugging process.
 
-Причем технических проблем для этого нет. Мало того, такие попытки уже [делались](https://habrahabr.ru/post/251795/).  Даже есть коммерческие проекты - [VisualGDB](http://visualgdb.com/download/). Почему это не сделает сама Microsoft - остается загадкой.
+And there is no technical problems for it. Moreover, such attempts already was made. You even can find commercial projects. For example [Visual GDB](http://visualgdb.com/download/). Why Microsoft still did not do it - one big question.
 
-Подводя итоги, можно сказать, что Visual C++ for IoT Development это здорово и пользоваться им вполне можно. Но неудобно. Есть несколько сценариев и все они предполагают "костыли" в лучшем случае в виде NMake. Надеюсь, что это расширение не будет заброшено и будет так же активно развиваться, как и [Visual C++ for Linux Development](https://habrahabr.ru/company/microsoft/blog/319962/). Хотя, так как последнее обновление было 31.03.2016, надежды могут быть и напрасны.
-
-
+Summing up, we can say, that Visual C++ for IoT Development is good and you really can use it. But it is uncomfortable. There is some scenarios of it's using and all of them includes additional difficulties such using NMake. I hope this extension will progress as fast as Linux remote debugging. But last update was on 03.31.2016 so my hope can be in vain...
